@@ -1,0 +1,35 @@
+<svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{imports && imports.groups.length * imports.subgraph.height || 500}}" ng-attr-width="{{(imports.subgraph.width || 800) + 80}}"><style scoped="">svg .node {
+      stroke: #FFB800;
+      stroke-width: 3px;
+      size: 300px;
+    }
+    svg .link {
+      stroke-width: 1.5px;
+    }
+    svg .link.modifier {
+      stroke-dasharray: 5, 5;
+    }
+    svg .node-label {
+      color: #333;
+      stroke-width: 0;
+      font-size: 14px;
+      font-family: Georgia;
+      font-weight: bolder;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    /*  svg .node.selected {
+    stroke: #FF0000;
+  }
+  svg .link.selected {
+    stroke: #FF0000;
+  }*/
+    svg marker#arrow {
+      stroke: #0013FF;
+      opacity: 1;
+      overflow: visible;
+    }
+    svg .box {
+      stroke: #000;
+      fill: none;
+    }</style><defs><marker case-sensitive="refX,refY" id="arrow" viewbox="0 0 10 10" ng-attr-refx="{{-2}}" ng-attr-refy="{{0}}" markerwidth="10" markerheight="10" orient="auto"><path fill="url(#markerGradient)" transform="rotate(-90)" ng-attr-d="{{arrow({size: 10, type: 'triangle-down'})}}"></path><!-- <path d="M0,-5L10,0L0,5"></path> --></marker><marker case-sensitive="refX,refY" id="degradation" viewbox="0 -5 10 10" ng-attr-refx="{{0}}" ng-attr-refy="{{0}}" markerwidth="15" markerheight="15" orient="auto"><path transform="rotate(-90)" ng-attr-d="{{arrow({size: 5, type: 'triangle-down'})}}"></path><!-- <path d="M0,-5L10,0L0,5"></path> --></marker><marker case-sensitive="refX,refY" id="modifier" markerwidth="8" markerheight="8" ng-attr-refx="{{0}}" ng-attr-refy="{{0}}" fill="black" orient="auto"><path ng-attr-d="{{arrow({size: 5, type: 'circle'})}}"></path><!-- <circle cx="1" cy="1" r="1" fill="black" stroke="black" opacity=".6"></circle> --></marker><lineargradient id="gradient"><stop offset="5%" stop-color="#FFDC9E"></stop><stop offset="95%" stop-color="#FFF"></stop></lineargradient><lineargradient id="markerGradient"><stop offset="5%" stop-color="rgb(97, 116, 255)"></stop><stop offset="95%" stop-color="#FFF"></stop></lineargradient><lineargradient id="reactionGradient"><stop offset="5%" stop-color="#B0C0FF"></stop><stop offset="95%" stop-color="#FFF"></stop></lineargradient></defs><g ng-attr-transform="translate({{translate.x}}, {{translate.y}})scale({{scale}})"><g><line ng-attr-stroke="{{{'prb': 'green', 'pr': 'red'}[link.type]}}" ng-attr-opacity="{{link.opacity || OPACITY.normal}}" ng-mouseover="mouseoverLink(link)" ng-mouseleave="mouseleaveLink(link)" ng-repeat="link in imports.edges" ng-if="link.target.id !== link.source.id" class="link" ng-attr-x1="{{link.x1}}" ng-attr-y1="{{link.y1}}" ng-attr-x2="{{link.x2}}" ng-attr-y2="{{link.y2}}" marker-end="url(#arrow)"></line></g><g ng-repeat="group in imports.groups"><g draggable="" ng-click="clickNode(node, $event)" ng-dblclick="dblClickNode(node, $event)" ng-mouseover="mouseoverNode(node, $event)" ng-mouseleave="mouseleaveNode(node, $event)" ng-attr-opacity="{{node.opacity}}" ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * imports.subgraph.height}})"><rect ng-attr-x="{{-node.width/2}}" ng-attr-y="{{-node.height/2}}" ng-attr-width="{{node.width}}" ng-attr-height="{{node.height}}" ng-attr-ry="{{node.height / 2}}" fill="url(#gradient)"><title>ID: {{node.id}}, Name: {{node.name}}</title></rect><text class="node-label">{{node.name}}</text></g><line ng-show="!$last" class="box" ng-attr-x1="{{0}}" ng-attr-x2="{{imports.subgraph.width}}" ng-attr-y1="{{($index + 1) * imports.subgraph.height}}" ng-attr-y2="{{($index + 1) * imports.subgraph.height}}"><g><text ng-attr-transform="rotate({{90}}, {{imports.subgraph.width}}, {{$index * imports.subgraph.height + 10 }})" opacity="0.5" ng-attr-x="{{imports.subgraph.width}}" ng-attr-y="{{$index * imports.subgraph.height + 10 }}" font-family="Georgia" font-size="28">{{group.name}}</text></g></g></g></svg>
