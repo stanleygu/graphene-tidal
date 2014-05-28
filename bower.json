@@ -1,6 +1,6 @@
 {
   "name": "graphene-tidal",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "dependencies": {
     "angular": "1.2.15",
     "json3": "~3.2.6",
