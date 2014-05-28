@@ -22,7 +22,9 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       app: require('./bower.json').appPath || 'app',
-      dist: 'dist'
+      dist: 'dist',
+      // version
+      version: require('./bower.json').version
     },
 
     // Watches files for changes and runs tasks based on the changed files
@@ -314,6 +316,11 @@ module.exports = function (grunt) {
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          src: '*.json',
+          dest: '<%= yeoman.dist %>'
         }]
       },
       styles: {
@@ -371,7 +378,22 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       }
-    }
+    },
+    buildcontrol: {
+      options: {
+        dir: 'dist',
+        commit: true,
+        push: true,
+        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+      },
+      pages: {
+        options: {
+          remote: 'https://github.com/stanleygu/graphene-tidal.git',
+          tag: '<%= yeoman.version %>',
+          branch: 'gh-pages'
+        }
+      }
+    },
   });
 
 
