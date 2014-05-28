@@ -1,4 +1,4 @@
 'use strict';
 
 angular
-  .module('grapheneTidalApp', []);
+  .module('grapheneTidalApp', ['sg.graphene']);
