@@ -1,6 +1,6 @@
 {
   "name": "graphene-tidal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "angular": "1.2.15",
     "graphene": "stanleygu/graphene#v0.2.1"
