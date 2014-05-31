@@ -144,11 +144,24 @@ angular.module('grapheneTidalApp')
           count += 1;
         });
 
+        var lookup = {};
+        lookup.node = _.indexBy($scope.data.nodes, 'name');
+
+        _.each($scope.edges, function(edge) {
+          edge.source.from = edge.source.from || [];
+          edge.source.from.push(edge);
+
+          edge.target.to = edge.target.to || [];
+          edge.target.to.push(edge);
+        });
+
+
         $scope.exports = {
+          nodes: $scope.data.nodes,
           groups: $scope.groups,
           edges: $scope.edges,
           subgraph: $scope.subgraph,
-          events: $scope.events
+          lookup: lookup
         };
       }
     });

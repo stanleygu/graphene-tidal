@@ -4,6 +4,12 @@ angular.module('grapheneTidalApp')
   .controller('sgTidalLayoutCtrl', function($scope, sgGeo) {
 
     $scope.spacer = 10;
+    $scope.OPACITY = {
+      focused: 1,
+      unfocused: 0.1,
+      normal: 1
+    };
+
 
     // COMPUTED LINK PROPERTY
     var updateLinkPosition = function(link) {
@@ -57,32 +63,34 @@ angular.module('grapheneTidalApp')
     });
 
 
-    $scope.clickNode = function(node, $event) {
-      var f = $scope.imports.events.click;
-      if (_.isFunction(f)) {
-        f(node, $scope, $event);
-      }
+
+    $scope.mouseoverNode = function(node) {
+      var OPAC = $scope.OPACITY;
+      _.each($scope.imports.edges, function(e) {
+        e.opacity = OPAC.unfocused;
+      });
+      _.each($scope.imports.nodes, function(n) {
+        n.opacity = OPAC.unfocused;
+      });
+      node.opacity = OPAC.focused;
+      _.each(node.from, function(e) {
+        e.opacity = OPAC.focused;
+        e.target.opacity = OPAC.focused;
+      });
+      _.each(node.to, function(e) {
+        e.opacity = OPAC.focused;
+        e.source.opacity = OPAC.focused;
+      });
     };
 
-    $scope.dblClickNode = function(node, $event) {
-      var f = $scope.imports.events.dblClick;
-      if (_.isFunction(f)) {
-        f(node, $scope, $event);
-      }
-    };
-
-    $scope.mouseoverNode = function(node, $event) {
-      var f = $scope.imports.events.mouseover;
-      if (_.isFunction(f)) {
-        f(node, $scope, $event);
-      }
-    };
-
-    $scope.mouseleaveNode = function(node, $event) {
-      var f = $scope.imports.events.mouseleave;
-      if (_.isFunction(f)){
-        f(node, $scope, $event);
-      }
+    $scope.mouseleaveNode = function() {
+      var OPAC = $scope.OPACITY;
+      _.each($scope.imports.nodes, function(n) {
+        n.opacity = OPAC.normal;
+      });
+      _.each($scope.imports.edges, function(e) {
+        e.opacity = OPAC.normal;
+      });
     };
 
   });
