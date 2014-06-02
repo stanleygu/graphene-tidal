@@ -64,20 +64,58 @@
   </defs>
   <g ng-attr-transform="translate({{translate.x || 0}}, {{translate.y || 0}})scale({{scale || 1}})">
     <g>
-      <line ng-attr-stroke="{{{'prb': 'green', 'pr': 'red'}[link.type]}}" ng-attr-opacity="{{link.opacity || OPACITY.normal}}" ng-mouseover="mouseoverLink(link)" ng-mouseleave="mouseleaveLink(link)" ng-repeat="link in imports.edges" ng-if="link.target.id !== link.source.id"
-      class="link" ng-attr-x1="{{link.x1}}" ng-attr-y1="{{link.y1}}" ng-attr-x2="{{link.x2}}" ng-attr-y2="{{link.y2}}" marker-end="url(#arrow)">
+      <line
+        ng-attr-stroke="{{{'prb': 'green', 'pr': 'red'}[link.type]}}"
+        ng-attr-opacity="{{link.opacity || OPACITY.normal}}"
+        ng-mouseover="mouseoverLink(link)"
+        ng-mouseleave="mouseleaveLink(link)"
+        ng-repeat="link in imports.edges"
+        ng-if="link.target.id !== link.source.id"
+        class="link"
+        ng-attr-x1="{{link.x1}}"
+        ng-attr-y1="{{link.y1}}"
+        ng-attr-x2="{{link.x2}}"
+        ng-attr-y2="{{link.y2}}"
+        marker-end="url(#arrow)">
       </line>
     </g>
     <g ng-repeat="group in imports.groups">
-      <g draggable ng-click="clickNode(node, $event)" ng-dblClick="dblClickNode(node, $event)" ng-mouseover="mouseoverNode(node, $event)" ng-mouseleave="mouseleaveNode(node, $event)" ng-attr-opacity="{{node.opacity}}" ng-repeat="node in group.nodes" class="node" ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * imports.subgraph.height}})">
-        <rect ng-attr-x="{{-node.width/2}}" ng-attr-y="{{-node.height/2}}" ng-attr-width="{{node.width}}" ng-attr-height="{{node.height}}" ng-attr-ry="{{node.height / 2}}" fill="url(#gradient)">
+      <g
+        draggable
+        ng-click="clickNode(node, $event)"
+        ng-dblClick="dblClickNode(node, $event)"
+        ng-mouseover="mouseoverNode(node, $event)"
+        ng-mouseleave="mouseleaveNode(node, $event)"
+        ng-attr-opacity="{{node.opacity}}"
+        ng-repeat="node in group.nodes"
+        class="node"
+        ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * imports.subgraph.height}})">
+        <rect
+          ng-attr-x="{{-node.width/2}}"
+          ng-attr-y="{{-node.height/2}}"
+          ng-attr-width="{{node.width}}"
+          ng-attr-height="{{node.height}}"
+          ng-attr-ry="{{node.height / 2}}"
+          fill="url(#gradient)">
           <title>ID: {{node.id}}, Name: {{node.name}}</title>
         </rect>
         <text class="node-label">{{node.name}}</text>
       </g>
-      <line ng-show="!$last" class="box" ng-attr-x1="{{0}}" ng-attr-x2="{{imports.subgraph.width}}" ng-attr-y1="{{($index + 1) * imports.subgraph.height}}" ng-attr-y2="{{($index + 1) * imports.subgraph.height}}" />
+      <line
+        ng-show="!$last"
+        class="box"
+        ng-attr-x1="{{0}}"
+        ng-attr-x2="{{imports.subgraph.width}}"
+        ng-attr-y1="{{($index + 1) * imports.subgraph.height}}"
+        ng-attr-y2="{{($index + 1) * imports.subgraph.height}}" ></line>
       <g>
-        <text ng-attr-transform="rotate({{90}}, {{imports.subgraph.width}}, {{$index * imports.subgraph.height + 10 }})" opacity="0.5" ng-attr-x="{{imports.subgraph.width}}" ng-attr-y="{{$index * imports.subgraph.height + 10 }}" font-family="Georgia" font-size="28">{{group.name}}</text>
+        <text
+          ng-attr-transform="rotate({{90}}, {{imports.subgraph.width}}, {{$index * imports.subgraph.height + 10 }})"
+          opacity="0.5"
+          ng-attr-x="{{imports.subgraph.width}}"
+          ng-attr-y="{{$index * imports.subgraph.height + 10 }}"
+          font-family="Georgia"
+          font-size="28">{{group.name}}</text>
       </g>
     </g>
   </g>
