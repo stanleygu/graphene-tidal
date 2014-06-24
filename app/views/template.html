@@ -1,43 +1,11 @@
 <svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{imports && imports.groups.length * imports.subgraph.height || 500}}" ng-attr-width="{{(imports.subgraph.width || 800) + 80}}">
-  <style scoped>
-    svg .node {
-      stroke: #FFB800;
-      stroke-width: 3px;
-      size: 300px;
-    }
-    svg .link {
-      stroke-width: 1.5px;
-    }
-    svg .link.modifier {
-      stroke-dasharray: 5, 5;
-    }
-    svg .node-label {
-      color: #333;
-      stroke-width: 0;
-      font-size: 14px;
-      font-family: Georgia;
-      font-weight: bolder;
-      text-anchor: middle;
-      dominant-baseline: middle;
-    }
-    /*  svg .node.selected {
-    stroke: #FF0000;
-  }
-  svg .link.selected {
-    stroke: #FF0000;
-  }*/
-    svg marker#arrow {
-      stroke: #0013FF;
-      opacity: 1;
-      overflow: visible;
-    }
-    svg .box {
-      stroke: #000;
-      fill: none;
-    }
-  </style>
   <defs>
-    <marker case-sensitive="refX,refY" id="arrow" viewBox="0 0 10 10" ng-attr-refX="{{-2}}" ng-attr-refY="{{0}}" markerWidth="10" markerHeight="10" orient="auto">
+    <marker
+      style="
+        stroke: #0013FF;
+        opacity: 1;
+        overflow: visible;"
+      case-sensitive="refX,refY" id="arrow" viewBox="0 0 10 10" ng-attr-refX="{{-2}}" ng-attr-refY="{{0}}" markerWidth="10" markerHeight="10" orient="auto">
       <path fill="url(#markerGradient)" transform="rotate(-90)" ng-attr-d="{{arrow({size: 10, type: 'triangle-down'})}}"></path>
       <!-- <path d="M0,-5L10,0L0,5"></path> -->
     </marker>
@@ -71,7 +39,7 @@
         ng-mouseleave="mouseleaveLink(link)"
         ng-repeat="link in imports.edges"
         ng-if="link.target.id !== link.source.id"
-        class="link"
+        style="stroke-width: 1.5px;"
         ng-attr-x1="{{link.x1}}"
         ng-attr-y1="{{link.y1}}"
         ng-attr-x2="{{link.x2}}"
@@ -82,13 +50,15 @@
     <g ng-repeat="group in imports.groups">
       <g
         draggable
-        ng-click="clickNode(node, $event)"
-        ng-dblClick="dblClickNode(node, $event)"
         ng-mouseover="mouseoverNode(node, $event)"
         ng-mouseleave="mouseleaveNode(node, $event)"
         ng-attr-opacity="{{node.opacity}}"
         ng-repeat="node in group.nodes"
-        class="node"
+        style="
+          stroke: #FFB800;
+          stroke-width: 3px;
+          size: 300px;
+        "
         ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * imports.subgraph.height}})">
         <rect
           ng-attr-x="{{-node.width/2}}"
@@ -99,11 +69,24 @@
           fill="url(#gradient)">
           <title>ID: {{node.id}}, Name: {{node.name}}</title>
         </rect>
-        <text class="node-label">{{node.name}}</text>
+        <text
+          style="
+            color: #333;
+            stroke-width: 0;
+            font-size: 14px;
+            font-family: Georgia;
+            font-weight: bolder;
+            text-anchor: middle;
+            dominant-baseline: middle;
+          "
+          >{{node.name}}</text>
       </g>
       <line
         ng-show="!$last"
-        class="box"
+        style="
+          stroke: #000;
+          fill: none;
+        "
         ng-attr-x1="{{0}}"
         ng-attr-x2="{{imports.subgraph.width}}"
         ng-attr-y1="{{($index + 1) * imports.subgraph.height}}"
