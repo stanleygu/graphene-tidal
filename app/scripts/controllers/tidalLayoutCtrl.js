@@ -3,6 +3,7 @@
 angular.module('grapheneTidalApp')
   .controller('sgTidalLayoutCtrl', function($scope, sgGeo) {
 
+    $scope.scale = 1;
     $scope.spacer = 10;
     $scope.OPACITY = {
       focused: 1,
