@@ -1,4 +1,4 @@
-<svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{imports && imports.groups.length * imports.subgraph.height || 500}}" ng-attr-width="{{(imports.subgraph.width || 800) + 80}}">
+<svg ng-controller="sgTidalLayoutCtrl" xmlns="http://www.w3.org/2000/svg" ng-attr-height="{{imports && groups.length * imports.subgraph.height || 500}}" ng-attr-width="{{(imports.subgraph.width || 800) + 80}}">
   <defs>
     <marker
       style="
@@ -37,7 +37,7 @@
         ng-attr-opacity="{{link.opacity || OPACITY.normal}}"
         ng-mouseover="mouseoverLink(link)"
         ng-mouseleave="mouseleaveLink(link)"
-        ng-repeat="link in imports.edges"
+        ng-repeat="link in edges"
         ng-if="link.target.id !== link.source.id"
         style="stroke-width: 1.5px;"
         ng-attr-x1="{{link.x1}}"
@@ -47,7 +47,7 @@
         marker-end="url(#arrow)">
       </line>
     </g>
-    <g ng-repeat="group in imports.groups">
+    <g ng-repeat="group in groups">
       <g
         draggable
         ng-mouseover="mouseoverNode(node, $event)"
