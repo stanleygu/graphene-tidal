@@ -84,7 +84,7 @@ angular.module('grapheneTidalApp')
           .nodes(nodes)
           .on('tick', function() {
             if ($scope.imports.subgraph.height && $scope.imports.subgraph.width) {
-              _.each(nodes, function(n) {
+              _.each(force.nodes(), function(n) {
                 n.x = Math.max(n.width, Math.min($scope.imports.subgraph.width -
                   n.width, n.x));
                 n.y = Math.max(n.height, Math.min($scope.imports.subgraph.height -
@@ -111,7 +111,9 @@ angular.module('grapheneTidalApp')
         $scope.groups.push({
           nodes: nodes,
           links: links,
-          name: key
+          name: key,
+          count: count,
+          force: force
         });
         count += 1;
       });
@@ -210,9 +212,80 @@ angular.module('grapheneTidalApp')
       });
     };
 
+    var loadGene = function(data) {
+
+      // Remove all gene nodes
+      _.each($scope.groups, function(g) {
+        g.nodes = _.filter(g.nodes, function(n) {
+          if (_.isEqual(n.type, 'gene')) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+      });
+
+      // Remove all edges to and from gene nodes
+      $scope.edges = _.filter($scope.edges, function(edge) {
+        if (_.isEqual(edge.target.type, 'gene') || _.isEqual(edge.source.type, 'gene')) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+
+      var lookup = {};
+      lookup.group = _.indexBy($scope.groups, 'name');
+      lookup.node = _.indexBy($scope.nodes, 'name');
+      // Add all new gene nodes and edges
+      _.each(data, function(gene, key) {
+        var group = lookup.group[gene.group];
+        var newNode = {
+          name: key,
+          type: 'gene',
+          width: 80,
+          height: 30,
+          from: [],
+          to: [],
+          group: group.count,
+          force: group.force
+        };
+        group.nodes.push(newNode);
+        _.each(gene.sources, function(n) {
+          var node = lookup.node[n];
+          var edge = {
+            source: node,
+            target: newNode
+          };
+          $scope.edges.push(edge);
+          node.from.push(edge);
+          newNode.to.push(edge);
+        });
+        _.each(gene.targets, function(n) {
+          var node = lookup.node[n];
+          var edge = {
+            target: node,
+            source: newNode
+          };
+          $scope.edges.push(edge);
+          node.to.push(edge);
+          newNode.from.push(edge);
+        });
+        var force = newNode.force;
+        force.nodes(group.nodes);
+        force.start();
+      });
+    };
+
     $scope.$watch('imports.data', function(newVal) {
       if (newVal) {
         runLayout(newVal);
+      }
+    });
+
+    $scope.$watch('imports.geneData', function(newVal) {
+      if (newVal) {
+        loadGene(newVal);
       }
     });
 

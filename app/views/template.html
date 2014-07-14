@@ -33,7 +33,7 @@
   <g ng-attr-transform="translate({{translate.x || 0}}, {{translate.y || 0}})scale({{scale || 1}})">
     <g>
       <line
-        ng-attr-stroke="{{{'prb': 'green', 'pr': 'red'}[link.type]}}"
+        ng-attr-stroke="{{{'prb': 'green', 'pr': 'red'}[link.type] || 'black'}}"
         ng-attr-opacity="{{link.opacity || OPACITY.normal}}"
         ng-mouseover="mouseoverLink(link)"
         ng-mouseleave="mouseleaveLink(link)"
@@ -55,18 +55,30 @@
         ng-attr-opacity="{{node.opacity}}"
         ng-repeat="node in group.nodes"
         style="
-          stroke: #FFB800;
           stroke-width: 3px;
           size: 300px;
         "
         ng-attr-transform="translate({{node.x}},{{node.y + $parent.$index * imports.subgraph.height}})">
         <rect
+          ng-if="node.type !== 'gene'"
+          style="stroke: #FFB800;"
           ng-attr-x="{{-node.width/2}}"
           ng-attr-y="{{-node.height/2}}"
           ng-attr-width="{{node.width}}"
           ng-attr-height="{{node.height}}"
           ng-attr-ry="{{node.height / 2}}"
           fill="url(#gradient)">
+          <title>ID: {{node.id}}, Name: {{node.name}}</title>
+        </rect>
+        <rect
+          ng-if="node.type === 'gene'"
+          stroke="rgb(18, 71, 238)"
+          ng-attr-x="{{-node.width/2}}"
+          ng-attr-y="{{-node.height/2}}"
+          ng-attr-width="{{node.width}}"
+          ng-attr-height="{{node.height}}"
+          ng-attr-ry="{{node.height / 2}}"
+          fill="url(#reactionGradient)">
           <title>ID: {{node.id}}, Name: {{node.name}}</title>
         </rect>
         <text

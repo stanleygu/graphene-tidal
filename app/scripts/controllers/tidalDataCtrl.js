@@ -36,6 +36,26 @@ angular.module('grapheneTidalApp')
     };
 
 
+    $scope.loadGene = function() {
+      $scope.exports.geneData = {
+        'STAT5A': {
+          'sources': [
+            'CEBPG',
+            'ETS2',
+            'IRF1',
+            'NFE2L1',
+            'SOX15',
+            'ZEB1'
+          ],
+          'group': '\t4 hours',
+          'targets': [
+            'ALX1',
+            'FOSL1'
+          ]
+        }
+      };
+    };
+
     // Timeout to let forceLayout function to be available
     //
     $scope.$watch('data', function(newVal) {
